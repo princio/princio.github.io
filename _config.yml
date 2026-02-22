@@ -1,3 +1,9 @@
 title: Dispense
 description: Dispense scolastiche
 theme: minima
+minima:
+  skin: solarized
+sass:
+  quiet_deps: true
+header_pages:
+  - dispense/terza/ascii.md

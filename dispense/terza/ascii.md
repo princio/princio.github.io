@@ -1,12 +1,18 @@
 ---
 layout: page
-title: Codifiche ASCII
+title: Codifiche testuali
 permalink: /dispense/terza/ascii/
 ---
 
-# Codifiche
+Le codifiche testuali si effettuano codificando ogni singolo simbolo di un testo, detto _carattere_. Il testo verrà infine codificato come una sequenza di caratteri.
 
-## Tabelle
+Ogni carattere, a seconda della codifica, viene rappresentato da un numero corrispondente alla sua posizioni nella tabella di conversione. Tale numero, che equivale al numero della riga, è detto `codepoint`.
+
+Vedremo due codifiche:
+- La codifica ASCII → ogni carattere codificato in una parola di codice di lunghezza pari a 7 bit.
+- La codifica UTF-8 → ogni carattere codificato in una parola di codice di lunghezza variabile (1 byte, 2 byte, 3 byte, 4 byte).
+
+## La tabella di conversione
 
 Le codifiche di caratteri testuali fanno uso di delle tabelle dove ad ogni riga corrisponde un _simbolo_ testuale.
 
@@ -21,8 +27,7 @@ Esempio:
 Dalla riga _0_ alla riga _31_ (inclusa) troviamo caratteri **non stampabili**, ovvero caratteri non visibili ma utili per definire inizio e fine di un testo, o di una linea.
 Dalla riga _32_ alla riga _127_ (inclusa) troviamo i caratteri **stampabili**.
 
-**IMPORTANTE**:
-> Il numero di riga di un simbolo nella tabella viene chiamato `CODEPOINT`.
+> **IMPORTANTE**: Il numero di riga di un simbolo nella tabella viene chiamato `CODEPOINT`.
 
 
 ## ASCII
