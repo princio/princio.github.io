@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Codifiche ASCII
+permalink: /dispense/terza/ascii/
 ---
 
 # Codifiche
