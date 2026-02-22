@@ -3,7 +3,7 @@ description: Dispense scolastiche
 theme: minima
 minima:
   skin: solarized
+  nav_pages:
+    - index.md
 sass:
   quiet_deps: true
-header_pages:
-  - dispense/terza/ascii.md

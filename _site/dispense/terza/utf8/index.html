@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Codifica UTF-8 | Dispense</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Codifica UTF-8" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Dispense scolastiche" />
+<meta property="og:description" content="Dispense scolastiche" />
+<meta property="og:site_name" content="Dispense" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Codifica UTF-8" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Dispense scolastiche","headline":"Codifica UTF-8","url":"/dispense/terza/utf8/"}</script>
+<!-- End Jekyll SEO tag -->
+<link id="main-stylesheet" rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Dispense" /><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper">
+    <a class="site-title" rel="author" href="/">Dispense</a>
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon"></span>
+        </label>
+
+        <div class="nav-items">
+  <a class="nav-item" href="/">Home</a>
+</div>
+
+      </nav>
+  </div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Codifica UTF-8</h1>
+  </header>
+
+  <div class="post-content">
+    <p>La codifica UTF-8 (Unicode Transformation Format) funziona sempre con una tabella codepoint-simbolo, ma la tabella è lunga <strong>1.112.064</strong> righe. Con soli 7 bit non è possibile rappresentare tutti i caratteri.</p>
+
+<p>La codifica UTF-8 è a <strong>lunghezza variabile</strong>: la parola di codice può essere lunga 1, 2, 3 o 4 byte.</p>
+
+<hr />
+
+<h2 id="1-compatibilità-con-ascii">1. Compatibilità con ASCII</h2>
+
+<p>I codepoint di valore ≤ 127 della tabella UTF-8 sono gli stessi della tabella ASCII, preceduti da un bit <code class="language-plaintext highlighter-rouge">0</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Carattere</th>
+      <th>ASCII</th>
+      <th>UTF-8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">C</code></td>
+      <td><code class="language-plaintext highlighter-rouge">100 0011</code></td>
+      <td><strong>0</strong><code class="language-plaintext highlighter-rouge">100 0011</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>I caratteri ASCII vengono rappresentati in UTF-8 con <strong>un solo byte</strong> perché sono i più <strong>frequenti</strong>: è intelligente associare ai caratteri più frequenti una parola di codice di lunghezza minore.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="2-codepoint--127">2. Codepoint &gt; 127</h2>
+
+<p>I codepoint maggiori di 127 <strong>non</strong> vengono codificati direttamente in binario:</p>
+
+<ul>
+  <li>❌ <code class="language-plaintext highlighter-rouge">È</code> → 200 → <code class="language-plaintext highlighter-rouge">1100 1000</code> → <code class="language-plaintext highlighter-rouge">0000 0000 1100 1000</code></li>
+</ul>
+
+<p>Questo perché quando si decodifica, bisogna poter capire <strong>senza ambiguità</strong> dove ogni parola inizia e finisce. La codifica reale è:</p>
+
+<ul>
+  <li>✅ <code class="language-plaintext highlighter-rouge">È</code> → 200 → <code class="language-plaintext highlighter-rouge">1100 0011 1000 1000</code></li>
+</ul>
+
+<p>Spiegazione dei bit:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1100 0011 1000 1000
+###^ ^^^^ ##^^ ^^^^
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">#</code> = bit di controllo: <code class="language-plaintext highlighter-rouge">110</code> indica l’inizio del primo byte, <code class="language-plaintext highlighter-rouge">10</code> indica un byte di continuazione.</li>
+  <li><code class="language-plaintext highlighter-rouge">^</code> = bit che rappresentano il valore del codepoint (200).</li>
+</ul>
+
+<blockquote>
+  <p>Con 2 byte si perdono 5 bit per i bit di controllo, quindi si possono rappresentare solo 2^11 codepoint invece di 2^16.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="3-tabella-riassuntiva-utf-8">3. Tabella riassuntiva UTF-8</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prefisso</th>
+      <th>Byte</th>
+      <th>Formato</th>
+      <th>Codepoint</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">0</code></td>
+      <td>1</td>
+      <td><code class="language-plaintext highlighter-rouge">0XXX XXXX</code></td>
+      <td>0 - 127 (ASCII)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">110</code></td>
+      <td>2</td>
+      <td><code class="language-plaintext highlighter-rouge">110X XXXX  10XX XXXX</code></td>
+      <td>128 - 2.047</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1110</code></td>
+      <td>3</td>
+      <td><code class="language-plaintext highlighter-rouge">1110 XXXX  10XX XXXX  10XX XXXX</code></td>
+      <td>2.048 - 65.535</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">1111 0</code></td>
+      <td>4</td>
+      <td><code class="language-plaintext highlighter-rouge">1111 0XXX  10XX XXXX  10XX XXXX  10XX XXXX</code></td>
+      <td>65.536 - 1.112.064</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Importante</strong>: in una codifica si deve tenere conto anche della fase di decodifica, ovvero permettere al decodificatore di comprendere facilmente l’inizio e la fine di ogni parola di codice, soprattutto quando la lunghezza è variabile.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="4-frequenza-e-lunghezza-della-parola-di-codice">4. Frequenza e lunghezza della parola di codice</h2>
+
+<p>Il principio alla base di UTF-8 è: <strong>caratteri più frequenti = parole di codice più corte</strong>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Byte</th>
+      <th>Caratteri inclusi</th>
+      <th>Frequenza d’uso</th>
+      <th>Esempio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Lettere latine, cifre, punteggiatura</td>
+      <td>Altissima</td>
+      <td><code class="language-plaintext highlighter-rouge">a</code>, <code class="language-plaintext highlighter-rouge">0</code>, <code class="language-plaintext highlighter-rouge">.</code></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Lettere accentate, greco, cirillico, ecc.</td>
+      <td>Alta</td>
+      <td><code class="language-plaintext highlighter-rouge">è</code>, <code class="language-plaintext highlighter-rouge">ñ</code>, <code class="language-plaintext highlighter-rouge">ü</code></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>CJK (cinese, giapponese, coreano), ecc.</td>
+      <td>Media</td>
+      <td><code class="language-plaintext highlighter-rouge">漢</code>, <code class="language-plaintext highlighter-rouge">あ</code>, <code class="language-plaintext highlighter-rouge">한</code></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Emoji, simboli rari, scritture storiche</td>
+      <td>Bassa</td>
+      <td><code class="language-plaintext highlighter-rouge">😀</code>, <code class="language-plaintext highlighter-rouge">𐍈</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Questo approccio minimizza la dimensione media dei file: un testo in italiano, composto prevalentemente da caratteri ASCII e poche lettere accentate, occuperà circa 1 byte per carattere.</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><link id="fa-stylesheet" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css">
+
+<footer class="site-footer h-card">
+  <data class="u-url" value="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+      </div>
+      <div class="footer-col">
+        <p>Dispense scolastiche</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list">
+  <li>
+    <a href="/feed.xml" target="_blank" title="Subscribe to syndication feed">
+      <svg class="svg-icon grey" viewbox="0 0 16 16">
+        <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+          11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+          13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+          16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"
+        />
+      </svg>
+    </a>
+  </li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+
+</body>
+
+</html>
